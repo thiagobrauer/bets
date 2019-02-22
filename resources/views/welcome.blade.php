@@ -13,7 +13,7 @@
         <style>
         </style>
     </head>
-    <body>
+    <body style="padding-bottom: 1000px">
         <div class="container">
             <div class="row p-5">
                 <form action="/generate" method="POST">
@@ -24,7 +24,7 @@
                     </div>
                     <div class="form-group">
                         <label for="amount">Quantidade de jogos</label>
-                        <input type="number" value="84" class="form-control" name="amount" id="amount" aria-describedby="emailHelp" required>
+                        <input type="number" value="3" class="form-control" name="amount" id="amount" aria-describedby="emailHelp" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Gerar</button>
                 </form>
@@ -33,9 +33,32 @@
             <div class="row">
                 <div class="col-12">
                     @if (session('bets'))
-                        @php
-                            dump(session('bets'));
-                        @endphp
+                        <form action="/download" method="POST">
+                            @csrf
+                            <input type="hidden" name="bets" value={{ json_encode(session('bets')) }}>
+                            <button type="submit" class="btn btn-secondary mb-3">Salvar</button>
+                        </form>
+    
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                <th scope="col">#</th>
+                                    @foreach (session('bets')[0] as $n)
+                                        <th scope="col">{{ $loop->index + 1 }}</th>
+                                    @endforeach
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (session('bets') as $bet)
+                                    <tr>
+                                        <th scope="row">{{ $loop->index + 1 }}</th>
+                                        @foreach ($bet as $n)
+                                            <td>{{ $n }}</td>
+                                        @endforeach
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     @endif
                 </div>
             </div>

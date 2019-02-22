@@ -223,6 +223,10 @@ class BetsController extends Controller
         return false;
     }
 
+    public function download(Request $request) {
+        dump(json_decode($request->bets));
+    }
+
     /**
      * Display a listing of the resource.
      *
