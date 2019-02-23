@@ -35,13 +35,13 @@
                         @csrf
                         <div class="form-group">
                             <label for="result">Resultado</label>
-                            <input type="result" value="" class="form-control" name="result" id="result" aria-describedby="emailHelp" required>
+                            <input type="result" value="" placeholder="10,20,30,40,50,60" class="form-control" name="result" id="result" aria-describedby="emailHelp" required>
                         </div>
                         <div class="form-group">
-                            <label for="bets">Quantidade de jogos</label>
+                            <label for="bets">JSON</label>
                             <input type="file" class="form-control" name="bets" id="bets" aria-describedby="emailHelp" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Resultado</button>
+                        <button type="submit" class="btn btn-primary">Conferir acertos</button>
                     </form>
                 </div>
             </div>
