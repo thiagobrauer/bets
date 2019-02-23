@@ -17,3 +17,4 @@ Route::get('/', function () {
 
 Route::post('generate', 'BetsController@generate');
 Route::post('download', 'BetsController@download');
+Route::post('hits', 'BetsController@hits');

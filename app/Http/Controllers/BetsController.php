@@ -224,82 +224,66 @@ class BetsController extends Controller
     }
 
     public function download(Request $request) {
-        dump(json_decode($request->bets));
+        if ($request->format == 'json') {
+            return response()->streamDownload(function () use ($request) {
+                echo $request->bets;
+            }, 'bets.json');
+        } elseif ($request->format == 'csv') {
+            return response()->streamDownload(function () use ($request) {
+                echo $this->str_putcsv(json_decode($request->bets));
+            }, 'bets.csv');
+
+            // dump($this->str_putcsv(json_decode($request->bets)));
+        }
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    public function str_putcsv($data, $delimiter = ';') {
+        # Generate CSV data from array
+        $fh = fopen('php://temp', 'rw'); # don't create a file, attempt
+                                        # to use memory instead
+
+        # write out the headers
+        fputcsv($fh, $this->getArrayKeys($data[0]), $delimiter);
+
+        # write out the data
+        $count = 1;
+        foreach ( $data as $row ) {
+            $row = array_merge([$count++], $row);
+            fputcsv($fh, $row, $delimiter);
+        }
+        rewind($fh);
+        $csv = stream_get_contents($fh);
+        fclose($fh);
+
+        return $csv;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function getArrayKeys($arr) {
+        $response = ['Jogo'];
+        $count = 1;
+        foreach ($arr as $item) {
+            array_push($response, $count++.' dezena');
+        }
+        return $response;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function hits(Request $request) {
+        $bets = json_decode(file_get_contents($request->bets->path()), true);
+        $betSize = count($bets[0]);
+        $result = explode(',', $request->result);
+        $hits = [];
+
+        foreach ($bets as $bet) {
+            $count = 0;
+            foreach ($bet as $n) {
+                if (in_array($n, $result)) {
+                    $count++;
+                }
+            }
+            array_push($hits, $count);
+        }
+
+        return view('hits', ['bets' => $bets, 'hits' => $hits]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
