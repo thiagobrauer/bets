@@ -68,6 +68,7 @@ class BetsController extends Controller
         $filename = $this->filename;
         $delimiter = $this->delimiter;
         $size = $this->size;
+        $bets = $this->bets;
 
         $bestNumbers = $this->bestNumbers;
         
@@ -136,6 +137,27 @@ class BetsController extends Controller
             return false;
         }
 
+        $larger = 0;
+        $sequences = 0;
+        for($i = 1; $i < $size; $i++){
+            if($bet[$i] == ($bet[$i-1]+1)){
+                $sequences++;
+                if($sequences > $larger)
+                    $larger = $sequences;
+            }else{
+                $sequences = 0;
+            }
+        }
+        if($larger <= 1){
+            // echo '<p style="font-weight: bold; color:green">Maior sequencia: '.($larger+1).' </p>';
+        }
+        else{
+            // dump($bet);
+            // echo '<p style="font-weight: bold; color:red">Maior sequencia: '.($larger+1).' </p>';
+            // $keep = true;
+            return false;
+        }
+
         $history = array();
         if (($handle = fopen($filename, 'r')) !== false)
         {
@@ -168,6 +190,25 @@ class BetsController extends Controller
                     }
                 }
             }
+
+            $equals = 0;
+            // $keep = true;
+            for($betsIndex = 0; $betsIndex < count($bets); $betsIndex++){
+                for($betIndex = 0; $betIndex < count($bet); $betIndex++){
+                    if($this->equal($bets[$betsIndex], $bet)){
+                        // echo '<p style="font-weight: bold; color:red">Jogo já foi adicionado: '
+                        //         .$bet[$betIndex][0].' '
+                        //         .$bet[$betIndex][1].' '
+                        //         .$bet[$betIndex][2].' '
+                        //         .$bet[$betIndex][3].' '
+                        //         .$bet[$betIndex][4].' '
+                        //         .$bet[$betIndex][5].' ';
+                        // $keep = true;
+                        return false;
+                    }
+                }
+            }
+
         } else {
             $in = $bet;
             $minLength = 6;
