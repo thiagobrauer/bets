@@ -229,9 +229,9 @@ class BetsController extends Controller
     
             $equals = 0;
             // $keep = true;
-            for($historyIndex = 0; $historyIndex < ($game-2); $historyIndex++){
+            for($historyIndex = 0; $historyIndex < count($history); $historyIndex++){
                 for($possibleIndex = 0; $possibleIndex < count($possible); $possibleIndex++){
-                    if(equal($history[$historyIndex], $possible[$possibleIndex])){
+                    if($this->equal($history[$historyIndex], $possible[$possibleIndex])){
                         echo '<p style="font-weight: bold; color:red">Jogo já foi sorteado: '
                                 .$history[$historyIndex][0].' '
                                 .$history[$historyIndex][1].' '

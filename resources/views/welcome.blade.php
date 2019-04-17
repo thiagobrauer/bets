@@ -25,7 +25,7 @@
                         </div>
                         <div class="form-group">
                             <label for="amount">Quantidade de jogos</label>
-                            <input type="number" value="84" class="form-control" name="amount" id="amount" aria-describedby="emailHelp" required>
+                            <input type="number" value="1" class="form-control" name="amount" id="amount" aria-describedby="emailHelp" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Gerar</button>
                     </form>
