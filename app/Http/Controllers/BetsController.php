@@ -87,6 +87,20 @@ class BetsController extends Controller
             // $keep = true;
             return false;
         }
+        
+        $fifties = 0;
+        for($i = 0; $i < $size; $i++){
+            if($bet[$i] >= 50 && $bet[$i] < 60){
+                $fifties++;
+            }
+        }
+        if($fifties >= 2){
+            // echo '<p style="font-weight: bold; color:green">'.$equals.' estão entre os 30 números mais sorteados</p>';
+        }else{
+            // echo '<p style="font-weight: bold; color:red">'.$equals.' estão entre os 30 números mais sorteados</p>';
+            // $keep = true;
+            return false;
+        }
 
         $evens = 0;
         $odds = 0;
@@ -129,7 +143,7 @@ class BetsController extends Controller
         for($i = 0; $i < $size; $i++){
             $sum += $bet[$i];
         }
-        if($sum >= 151 && $sum <= 216){
+        if($sum >= 151 && $sum <= 400){
             // echo '<p style="font-weight: bold; color:green">Soma das dezenas: '.$sum.'</p>';
         }else{
             // echo '<p style="font-weight: bold; color:red">Soma das dezenas: '.$sum.'</p>';

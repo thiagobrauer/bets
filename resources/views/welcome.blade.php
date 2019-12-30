@@ -21,7 +21,7 @@
                         @csrf
                         <div class="form-group">
                             <label for="size">Tamanho do jogo (6 - 15)</label>
-                            <input type="number" value="6" class="form-control" name="size" id="size" aria-describedby="emailHelp" required>
+                            <input type="number" value="9" class="form-control" name="size" id="size" aria-describedby="emailHelp" required>
                         </div>
                         <div class="form-group">
                             <label for="amount">Quantidade de jogos</label>
